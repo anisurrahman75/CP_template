@@ -1,0 +1,35 @@
+ll F[maxn],R[maxn],P[maxn],base=31;
+void genp()
+{
+	P[0]=1;
+	for ( int i=1;i<maxn;i++)P[i]=(P[i-1]*base)%mod;
+}
+void string_hashing(string str)
+{
+	ll len=str.size(),rem=0;
+	for ( int i=0;i<len;i++)// forward
+	{
+		rem=((rem*base)+(str[i]-'a')+1)%mod;
+		F[i]=rem;
+	} 
+	rem=0,R[len]=0;
+	for ( int i=len-1;i>=0;i--)// reverse
+	{
+		rem=((rem*base)+(str[i]-'a')+1)%mod;
+		R[i]=rem;
+	}
+}
+ll get_F(ll l , ll r)
+{
+	ll le=l>0?F[l-1]:0,ri=F[r];
+	ll ans=(ri-(le*P[(r-l)+1]))%mod;
+	ans=(ans+mod)%mod;
+	return ans;
+}
+ll get_R(ll l, ll r)
+{
+	ll le=R[l],ri=R[r+1];
+	ll ans=(le-(ri*P[(r-l)+1]))%mod;
+	ans=(ans+mod)%mod;
+	return ans;
+}
