@@ -1,0 +1,25 @@
+vector<ll>mat[maxn];
+ll n,ckr[maxn];
+vector<ll>cy;
+bool dfs(ll node, ll par)
+{
+	cy.push_back(node);
+	ckr[node]=1;
+	for (auto it: mat[node])
+	{
+		if (ckr[it]==0)
+		{
+			if (dfs(it,node))return true;
+		}
+		else
+		{
+			if (it!=par)
+			{
+				cy.push_back(it);
+				return true;
+			}
+		}
+	}
+	cy.pop_back();
+	return false;
+}
