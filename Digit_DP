@@ -1,0 +1,42 @@
+ll dp[11][2][2][85],sz;
+ll f(ll pos, ll is_start,ll is_small, ll sum)
+{
+	if (pos==sz)return sum;
+
+	if (dp[pos][is_start][is_small][sum]!=-1)return dp[pos][is_start][is_small][sum];
+
+	ll ans=0,range=is_small? 9:arr[pos];
+
+	if (is_start)
+	{
+		for ( int i=0;i<=range;i++)
+		{
+			ans+=f(pos+1,1,is_small|(i<range),sum+i);
+
+		}
+	}
+	else
+	{
+		for ( int i=1;i<=range;i++)
+		{
+			ans+=f(pos+1,1,is_small|(i<range),sum+i);
+
+		}
+		ans+=f(pos+1,0,1,0);
+	}
+
+	dp[pos][is_start][is_small][sum]=ans;
+	return ans;
+}
+ll get(ll n)
+{
+	arr.clear();
+	clr(dp,-1);
+	while(n!=0)
+	{
+		arr.push_back(n%10);
+		n/=10;
+	}sz=arr.size();
+	reverse(arr.begin(),arr.end());
+	return f(0,0,0,0);
+}
