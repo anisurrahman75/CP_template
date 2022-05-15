@@ -10,7 +10,7 @@ void build(ll id, ll l, ll r)
 		seg[id]=seg[id*2]+seg[id*2+1];
 	}
 }
-ll query(ll id, ll st, ll en, ll l, ll r)
+ll query(ll id, ll l, ll r,ll st, ll en, )
 {
 	if (l>en || r<st)return 0;
 	if (l>=st && r<=en)return seg[id];
