@@ -1,0 +1,34 @@
+ll arr[maxn][30],n,m,tin[maxn],dis[maxn],ckr[maxn],tout[maxn],k=0,z=0;
+vector<ll>mat[maxn];
+void init()
+{
+    k=ceil(log2(n)),z=0;clr(arr,0);
+    for (int i=0;i<=n;i++)mat[i].clear(),tin[i]=0,tout[i]=0,dis[i]=0;
+}
+void dfs(ll node, ll par,ll cost)
+{
+    tin[node]=++z,arr[node][0]=par,dis[node]=cost;
+    for (int i=1;i<=k;i++)
+    {
+        arr[node][i]=arr[arr[node][i-1]][i-1];
+    }
+    for (auto it: mat[node])
+    {
+        if (it!=par)dfs(it,node,cost+1);
+    }
+    tout[node]=++z;
+}
+bool is_anc(ll a, ll b)
+{
+    return (tin[a]<=tin[b] && tout[a]>=tout[b]);
+}
+ll lca(ll a,ll b)
+{
+    if (is_anc(a,b))return a;
+    if (is_anc(b,a))return b;
+    for (int i=k;i>=0;i--)
+    {
+        if (!is_anc(arr[a][i],b)) a=arr[a][i];
+    }
+    return arr[a][0];
+}
