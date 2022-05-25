@@ -16,8 +16,8 @@ ll query(ll id, ll l, ll r,ll st, ll en, )
 	if (l>=st && r<=en)return seg[id];
 	ll m=(l+r)/2;
 
-	ll a= query(id*2,st,en,l,m);
-	ll b= query(id*2+1,st,en,m+1,r);
+	ll a= query(id*2,l,m,st,en);
+	ll b= query(id*2+1,m+1,r,st,en);
 	ll ans= a+b;
 	return ans;
 }
