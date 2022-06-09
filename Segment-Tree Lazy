@@ -1,0 +1,43 @@
+ll arr[200000], lazy[200000 * 4], tre[200000 * 4];
+void build(int id, int st, int en)
+{
+    if (st == en) tre[id] = arr[st];
+    else {
+        int mid = (st + en) / 2;
+        build(2 * id, st, mid);
+        build(2 * id + 1, mid + 1, en);
+        tre[id]=min(tre[id*2],tre[id*2+1]);
+    }
+}
+void push_down(int id, int st, int en)
+{
+    if (st==en)tre[id]-=lazy[id];
+    if (st != en)
+    {   lazy[2 * id] += lazy[id];
+        lazy[2 * id + 1] += lazy[id];
+    }
+    lazy[id] = 0;
+}
+void update(int id, int st, int en, int le, int ri, int val)
+{
+    if (lazy[id] != 0) push_down(id, st, en);
+    if (ri < st || en < le)  return;
+    else if (le <= st && en <= ri)
+    {
+        lazy[id] = val, push_down(id, st, en);
+        return;
+    }
+    int mid = (st + en) / 2;
+    update(2 * id, st, mid, le, ri, val);
+    update(2 * id + 1, mid + 1, en, le, ri, val);
+    tre[id]=min(tre[id*2],tre[id*2+1]);
+}
+ll query(int id, int st, int en, int le, int ri)
+{
+    if (lazy[id]!=0) push_down(id, st, en);
+    if (ri < st || en < le)  return infll;
+    if (le <= st && en <= ri)    return tre[id];
+ 
+    int mid = (st + en) / 2;
+    return min(query(2 * id, st, mid, le, ri), query(2 * id + 1, mid + 1, en, le, ri));
+}
