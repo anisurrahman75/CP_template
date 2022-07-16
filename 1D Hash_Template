@@ -1,4 +1,4 @@
-ll F[maxn],R[maxn],P[maxn],base=31;
+ll F[maxn],R[maxn],P[maxn],base=137;
 void genp()
 {
 	P[0]=1;
