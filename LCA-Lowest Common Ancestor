@@ -22,6 +22,18 @@ bool is_anc(ll a, ll b)
 {
     return (tin[a]<=tin[b] && tout[a]>=tout[b]);
 }
+//ll get_val_by_dis(ll node, ll p)
+//{
+//	for (int i=z;i>=0;i--)
+//	{
+//		if (p>=(1<<i))
+//		{
+//			node=arr[node][i];
+//			p-=(1<<i);
+//		}
+//	}
+//	return node;
+//}
 ll lca(ll a,ll b)
 {
     if (is_anc(a,b))return a;
