@@ -2,7 +2,7 @@ ll arr[maxn][30],n,m,tin[maxn],dis[maxn],ckr[maxn],tout[maxn],k=0,z=0;
 vector<ll>mat[maxn];
 void init()
 {
-    k=ceil(log2(n)),z=0;clr(arr,0);
+    k=ceil(log2(n)),z=0;
     for (int i=0;i<=n;i++)mat[i].clear(),tin[i]=0,tout[i]=0,dis[i]=0;
 }
 void dfs(ll node, ll par,ll cost)
