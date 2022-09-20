@@ -1,0 +1,61 @@
+int n,col[maxn],sz[maxn],maxx,cnt[maxn];
+ll ans[maxn],sum=0;
+bool big[maxn];
+vector<int>mat[maxn];
+void get_size(int v,int p)
+{
+    sz[v]=1;
+    for(auto &u: mat[v])
+    {
+        if(u!=p)get_size(u,v),sz[v]+=sz[u];
+    } 
+}
+void gen(int x)
+{
+    if(maxx<++cnt[x]) maxx=cnt[x],sum=x;
+    else if(maxx==cnt[x])sum+=x;
+}
+void add(int v,int p)
+{
+    gen(col[v]);
+    for(auto &u: mat[v])
+    {
+        if(u!=p && !big[u]) add(u,v);
+    }
+}
+void rem(int v,int p)
+{
+    cnt[col[v]]--;
+    for(auto &u: mat[v])
+    {
+        if(u!=p && !big[u]) rem(u,v);
+    }
+}
+void dfs(int v,int p,bool keep)
+{
+    int mx=0,bigChild=-1;
+    for(auto &u: mat[v])
+    {
+        if(u!=p && sz[u]>mx) mx=sz[u],bigChild=u;
+    }
+    for(auto &u: mat[v])
+    {
+        if(u!=p && u!=bigChild) dfs(u,v,0);
+    }
+    if(bigChild!=-1)
+    {
+        dfs(bigChild,v,1),big[bigChild]=1;
+    }
+
+    add(v,p);
+    ans[v]=sum;
+
+    if(bigChild!=-1)
+    {
+        big[bigChild]=0;
+    }
+    if(keep==0)
+    {
+        rem(v,p),maxx=sum=0;
+    }
+}
