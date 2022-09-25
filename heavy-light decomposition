@@ -1,0 +1,175 @@
+#include<bits/stdc++.h>
+using namespace std;
+using ll= long long;
+const ll inf = 20000000;
+const ll infll = 9000000000000000000;
+const ll lim = 200000000;
+const ll maxn =2e5+100; 
+//..................................................................Segment Tree Part............................
+ll arr[maxn], lazy[maxn * 4], tre[maxn * 4];
+ll combine(ll a, ll b) 
+{
+    return (a+b);     
+    //                                                     update here
+}
+void pull(ll id) 
+{
+    tre[id] = tre[id*2]+tre[(id*2)+1]; 
+    //                                                     update here
+}
+void push_down(int id, int st, int en)
+{
+    tre[id]=lazy[id]; //                                  update here
+    if (st != en)
+    {   lazy[2 * id] += lazy[id];
+        lazy[2 * id + 1] += lazy[id];
+    }
+    lazy[id] = 0;
+}
+void build(int id, int st, int en)
+{
+    if (st == en) tre[id] = arr[st];
+    else {
+        int mid = (st + en) / 2;
+        build(2 * id, st, mid);
+        build(2 * id + 1, mid + 1, en);
+        pull(id);
+    }
+}
+void update(int id, int st, int en, int le, int ri, ll val)
+{
+    if (lazy[id] != 0) push_down(id, st, en);
+    if (ri < st || en < le)  return;
+    else if (le <= st && en <= ri)
+    {
+        lazy[id] = val, push_down(id, st, en);
+        return;
+    }
+    int mid = (st + en) / 2;
+    update(2 * id, st, mid, le, ri, val);
+    update(2 * id + 1, mid + 1, en, le, ri, val);
+    pull(id);
+}
+ll query(int id, int st, int en, int le, int ri)
+{
+    if (lazy[id]!=0) push_down(id, st, en);
+    if (ri < st || en < le)  return 0;//                     update here
+    if (le <= st && en <= ri)    return tre[id];
+    int mid = (st + en) / 2;
+    return combine(query(2 * id, st, mid, le, ri), query(2 * id + 1, mid + 1, en, le, ri));
+}
+//................................................................................LCA Part.......................
+int par[maxn][30],n,m,dep[maxn],sz[maxn],head[maxn],st[maxn],en[maxn],LG=21,z=0;
+ll val[maxn];
+vector<int>mat[maxn];
+void dfs(int u, int p = 0)
+{   
+    par[u][0] = p,dep[u] = dep[p] + 1,sz[u] = 1;
+    for (int i = 1; i <= LG; i++) par[u][i] = par[par[u][i - 1]][i - 1];
+    if (p) mat[u].erase(find(mat[u].begin(), mat[u].end(), p));
+    for (auto &v : mat[u])
+    {
+        if (v != p)
+        {
+          dfs(v, u);
+          sz[u] += sz[v];
+          if(sz[v] > sz[mat[u][0]]) swap(v, mat[u][0]);
+        }
+    }
+}
+int lca(int u, int v) 
+{
+    if (dep[u] < dep[v]) swap(u, v);
+    for (int k = LG; k >= 0; k--) if (dep[par[u][k]] >= dep[v]) u = par[u][k];
+    if (u == v) return u;
+    for (int k = LG; k >= 0; k--) if (par[u][k] != par[v][k]) u = par[u][k], v = par[v][k];
+    return par[u][0];
+}
+int kth(int u, int k)
+{
+    assert(k >= 0);
+    for (int i = 0; i <= LG; i++) if (k & (1 << i)) u = par[u][i];
+    return u;
+}
+//................................................................................HLD Part......................
+void dfs_hld(int u) 
+{
+    st[u] = ++z;
+    arr[z]=val[u];
+    for (auto v : mat[u])
+    {
+        head[v] = (v == mat[u][0] ? head[u] : v);
+        dfs_hld(v);
+    }
+    en[u] = z;
+}
+ll query_up(int u, int v)
+{
+    ll ans = 0;
+    while(head[u] != head[v]) 
+    {
+        ans = ans + query(1, 1, n, st[head[u]], st[u]);
+        u = par[head[u]][0];
+    }
+    ans = ans + query(1, 1, n, st[v], st[u]);
+    return ans;
+}
+ll query(int u, int v)
+{
+    if (dep[u]>dep[v])swap(u,v);
+    int l = lca(u, v);
+    ll ans = query_up(v, l);
+    if (u != l)
+    {
+        ans+=query_up(u,l);
+        ans-=query_up(l,l);
+    }
+    return ans;
+}
+void solve()
+{
+    cin>>n>>m;
+    for (int i=1;i<=n;i++)cin>>val[i];
+    for (int i=0;i<n-1;i++)
+    {
+        int a,b; cin>>a>>b;
+        mat[a].push_back(b);
+        mat[b].push_back(a);
+    }
+    dfs(1);
+    head[1]=1;
+    dfs_hld(1);
+    build(1,1,n);
+    while(m--)
+    {
+        ll a,b,c; cin>>a;
+        if (a==1)
+        {
+            cin>>b>>c;
+            update(1,1,n,st[b],st[b],c);
+        }
+        else
+        {
+            cin>>b;
+            cout<<query(1,b)<<endl;
+        }
+    }
+}
+int main()
+{   
+    clock_t tStart = clock();
+    ios::sync_with_stdio(false);cin.tie(0);cout.tie(0);
+    #ifdef ONLINEJUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+    #endif
+
+    solve();
+
+    #ifdef ONLINEJUDGE
+        fprintf(stderr, "\n>> Runtime: %.10fs\n", (double) (clock() - tStart) / CLOCKS_PER_SEC);
+    #endif
+ 
+    return 0;
+}
+//problem link: https://cses.fi/problemset/task/1138/
