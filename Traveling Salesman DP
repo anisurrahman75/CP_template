@@ -1,0 +1,33 @@
+ll cost[maxn][maxn],dp[maxn][1<<20],n,arr[maxn][3];
+ll f(ll last,ll val)
+{
+    if (val==((1<<n)-1))
+    {
+        return cost[last][0];
+    }
+    if (dp[last][val]!=-1)return dp[last][val];
+    ll ans=infll;
+    for (int i=0;i<n;i++)
+    {
+        if (checkbit(val,i)==0)
+        {
+            ans=min(ans,f(i,onbit(val,i))+cost[last][i]);
+        }
+    }
+    return dp[last][val]=ans;
+}
+void solve(){
+
+    clr(dp,-1);
+    cin>>n;
+    for(int i=0;i<n;i++)cin>>arr[i][0]>>arr[i][1]>>arr[i][2];
+    for (int i=0;i<n;i++)
+    {
+        for (int j=0;j<n;j++)
+        {
+            if (i!=j)cost[i][j]=abs(arr[i][0]-arr[j][0])+abs(arr[i][1]-arr[j][1])+max(0ll,arr[j][2]-arr[i][2]);
+        }
+    }
+    cout<<f(0,1)<<endl;
+
+}
