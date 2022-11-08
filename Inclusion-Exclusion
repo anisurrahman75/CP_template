@@ -1,0 +1,21 @@
+// given 2,3,5 and range n find divisors of 2,3,5 in range n.
+ll count(vector<ll>v, ll range)
+{
+    ll odd = 0, even = 0;
+    ll counter, i, j, p = 1,n=v.size();
+    ll pow_set_size = (1 << n);
+    for (counter = 1; counter < pow_set_size; counter++) {
+        p = 1;
+        for (j = 0; j < n; j++) {
+            if (counter & (1 << j)) {
+                p =lcm(v[j],p);
+            }
+        }
+        if (__builtin_popcount(counter) & 1)
+            odd += (range / p);
+        else
+            even += (range / p);
+    }
+ 
+    return odd - even;
+}
