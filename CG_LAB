@@ -1,0 +1,318 @@
+#include <GL/glut.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include<math.h>
+
+void init() {
+    glClearColor(1.0, 1.0, 1.0, 1);
+    glOrtho(-100, 100, -100, 100, -100, 100);
+}
+
+void circle_fill(GLfloat rx, GLfloat ry, GLfloat x, GLfloat y, GLfloat startangle = 0, GLfloat endangle = 360) {
+    GLfloat PI = 3.1416;
+    glBegin(GL_TRIANGLE_FAN); // full circle
+   // glBegin(GL_POINTS);  for Empty circle
+
+
+  /*  glPointSize(10);
+    glBegin(GL_POINTS); *///  border circle
+
+//    glVertex2f(x, y); // for a single point
+    for (GLfloat angle = startangle; angle <= endangle; angle += 2.0 * PI / 1000.0) {
+        GLfloat rangle = PI * angle / 180.0;
+        glVertex2f(x + (cos(rangle) * rx), y + (sin(rangle) * ry));
+    }
+    glEnd();
+}
+void circle_border(GLfloat rx, GLfloat ry, GLfloat x, GLfloat y, GLfloat startangle = 0, GLfloat endangle = 360) {
+    GLfloat PI = 3.1416;
+
+
+    glPointSize(2);
+    glBegin(GL_POINTS);
+
+//    glVertex2f(x, y); // for a single point
+    for (GLfloat angle = startangle; angle <= endangle; angle += 2.0 * PI / 1000.0) {
+        GLfloat rangle = PI * angle / 180.0;
+        glVertex2f(x + (cos(rangle) * rx), y + (sin(rangle) * ry));
+    }
+    glEnd();
+}
+void right_kata()
+{
+
+
+    glColor3f(1, 0, 0);
+    glBegin(GL_POLYGON);
+    glVertex2d(55,5);
+    glVertex2d(55,0);
+    glVertex2d(80,-5);
+    glVertex2d(85,-5);
+    glEnd();
+
+      glColor3f(1, 0, 0);
+    glBegin(GL_POLYGON);
+    glVertex2d(80,-5);
+    glVertex2d(85,-5);
+    glVertex2d(80,-15);
+    glEnd();
+
+    int d=10,e=10;
+     glBegin(GL_POLYGON);
+    glVertex2d(55,5-d);
+    glVertex2d(55,0-d);
+    glVertex2d(70,-5-d);
+    glVertex2d(75,-5-d);
+    glEnd();
+
+      glColor3f(1, 0, 0);
+    glBegin(GL_POLYGON);
+    glVertex2d(70,-5-d);
+    glVertex2d(75,-5-d);
+    glVertex2d(70,-15-d);
+
+    glEnd();
+
+    d=20;
+     glBegin(GL_POLYGON);
+    glVertex2d(55-e,5-d);
+    glVertex2d(55-e,0-d);
+    glVertex2d(70-e,-5-d);
+    glVertex2d(75-e,-5-d);
+    glEnd();
+
+      glColor3f(1, 0, 0);
+    glBegin(GL_POLYGON);
+    glVertex2d(70-e,-5-d);
+    glVertex2d(75-e,-5-d);
+    glVertex2d(70-e,-15-d);
+
+    glEnd();
+}
+void left_kata()
+{
+     glColor3f(1, 0, 0);
+    glBegin(GL_POLYGON);
+    glVertex2d(-55,5);
+    glVertex2d(-55,0);
+    glVertex2d(-80,-5);
+    glVertex2d(-85,-5);
+    glEnd();
+
+       glColor3f(1, 0, 0);
+    glBegin(GL_POLYGON);
+    glVertex2d(-80,-5);
+    glVertex2d(-85,-5);
+    glVertex2d(-80,-15);
+    glEnd();
+
+     int d=10,e=10;
+     glBegin(GL_POLYGON);
+    glVertex2d(-55,5-d);
+    glVertex2d(-55,0-d);
+    glVertex2d(-70,-5-d);
+    glVertex2d(-75,-5-d);
+    glEnd();
+
+      glColor3f(1, 0, 0);
+    glBegin(GL_POLYGON);
+    glVertex2d(-70,-5-d);
+    glVertex2d(-75,-5-d);
+    glVertex2d(-70,-15-d);
+    glEnd();
+
+        d=20;e=-10;
+     glBegin(GL_POLYGON);
+    glVertex2d(-55-e,5-d);
+    glVertex2d(-55-e,0-d);
+    glVertex2d(-70-e,-5-d);
+    glVertex2d(-75-e,-5-d);
+    glEnd();
+
+      glColor3f(1, 0, 0);
+    glBegin(GL_POLYGON);
+    glVertex2d(-70-e,-5-d);
+    glVertex2d(-75-e,-5-d);
+    glVertex2d(-70-e,-15-d);
+     glEnd();
+}
+void octopus() {
+//    glClear(GL_COLOR_BUFFER_BIT);
+
+     glColor3f(1, 0, 0);
+    circle_fill(60, 40, 0, 5, 0, 360);
+
+    glColor3f(1, 1, 1);
+    circle_fill(10, 20, -10, 40, 0, 360);
+    circle_fill(10, 20, 10, 40, 0, 360);
+
+     glColor3f(0, 0, 0);
+    circle_border(10, 20, -10, 40, 0, 360);
+    circle_border(10, 20, 10, 40, 0, 360);
+
+    glColor3f(0, 0, 153);
+      circle_fill(2, 2, -10, 40, 0, 360);
+    circle_fill(2, 2, 10, 40, 0, 360);
+
+     glColor3f(0, 0, 0);
+    circle_fill(8, 8, -10, 60, 0, 180);
+    circle_fill(8, 8, 10, 60, 0, 180);
+
+    glColor3f(1, 1, 1);
+    circle_fill(30, 20, -10, 0, 270, 360);
+
+    glBegin(GL_POLYGON);
+    glVertex2d(-10,-20);
+    glVertex2d(-10,0);
+    glVertex2d(20,0);
+    glEnd();
+
+    right_kata();
+    left_kata();
+//    glFlush();
+}
+
+void curve_line()
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    GLfloat x[4],y1[4],y2[4];
+    GLfloat xt[1000],y1t[1000],y2t[1000],t;
+    x[0]=-50,x[1]=0,x[2]=0, x[3]=50;
+    y1[0]=0,y1[1]=-15,y1[2]=-15,y1[3]=0;
+    y2[0]=-10,y2[1]=-25,y2[2]=-25,y2[3]=-10;
+    int last;
+    for (last=0,t=0;t<1;t+=0.01,last++)
+    {
+        xt[last]=pow(1-t,3)*x[0]+3*t*pow(1-t,2)*x[1]+3*pow(t,2)*(1-t)*x[2]+pow(t,3)*x[3];
+        y1t[last]=pow(1-t,3)*y1[0]+3*t*pow(1-t,2)*y1[1]+3*pow(t,2)*(1-t)*y1[2]+pow(t,3)*y1[3];
+        y2t[last]=pow(1-t,3)*y2[0]+3*t*pow(1-t,2)*y2[1]+3*pow(t,2)*(1-t)*y2[2]+pow(t,3)*y2[3];
+    }
+    glPointSize(5);
+    glBegin(GL_QUAD_STRIP);
+    glColor3f(1,0,0);
+    for (int i=0;i<last;i++)
+    {
+        glVertex2d(xt[i],y1t[i]);
+        glVertex2d(xt[i],y2t[i]);
+    }
+    glEnd();
+    glFlush();
+}
+void curve_line2()
+{
+//    glClear(GL_COLOR_BUFFER_BIT);
+
+    GLfloat x1[4],y[4],x1t[1000],yt[1000],t;
+    GLfloat  x2[4],x2t[1000];
+
+    x1[0]=0,x1[1]=25,x1[2]=25,x1[3]=0;
+    y[0]=-50,y[1]=0, y[2]=0,y[3]=25;
+
+    x2[0]=10,x2[1]=35,x2[2]=35,x2[3]=10;
+
+    int last=0;
+    for (last=0,t=0;t<1;t+=0.01,last++)
+    {
+        x1t[last]=pow(1-t,3)*x1[0]+3*t*pow(1-t,2)*x1[1]+3*pow(t,2)*(1-t)*x1[2]+pow(t,3)*x1[3];
+        x2t[last]=pow(1-t,3)*x2[0]+3*t*pow(1-t,2)*x2[1]+3*pow(t,2)*(1-t)*x2[2]+pow(t,3)*x2[3];
+        yt[last]=pow(1-t,3)*y[0]+3*t*pow(1-t,2)*y[1]+3*pow(t,2)*(1-t)*y[2]+pow(t,3)*y[3];
+    }
+       glPointSize(5);
+    glBegin(GL_QUAD_STRIP);
+    glColor3f(1,0,0);
+    for (int i=0;i<last;i++)
+    {
+        glVertex2d(x1t[i],yt[i]);
+        glVertex2d(x2t[i],yt[i]);
+    }
+    glEnd();
+
+
+
+//    glFlush();
+}
+void flower()
+{
+     glClear(GL_COLOR_BUFFER_BIT);
+    curve_line2();
+     glColor3f(1,0,0);
+
+
+     circle_fill(15,15,0,50,0,360);
+     circle_fill(15,15,-20,30,0,360);
+     circle_fill(15,15,0,10,0,360);
+    circle_fill(15,15,20,30,0,360);
+
+    glColor3f(1,1,0);
+     circle_fill(15,15,0,30,0,360);
+
+    glFlush();
+}
+void fish()
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    glColor3f(1,0,0);
+    glBegin(GL_POLYGON);
+    glVertex2d(-20,0);
+    glVertex2d(0,20);
+    glVertex2d(0,-20);
+    glEnd();
+
+       glBegin(GL_POLYGON);
+    glVertex2d(0,20);
+    glVertex2d(7,17);
+    glVertex2d(10,25);
+    glEnd();
+
+    glBegin(GL_POLYGON);
+    glVertex2d(0,-20);
+    glVertex2d(7,-17);
+    glVertex2d(10,-25);
+    glEnd();
+
+    glColor3f(0,0,0);
+    circle_fill(3,3,-8,5,0,360);
+
+
+    glColor3f(1,0,0);
+    glBegin(GL_POLYGON);
+    glVertex2d(0,20);
+    glVertex2d(0,-20);
+    glVertex2d(50,0);
+    glEnd();
+
+     glBegin(GL_POLYGON);
+    glVertex2d(45,0);
+    glVertex2d(60,-10);
+    glVertex2d(55,0);
+    glEnd();
+
+    glBegin(GL_POLYGON);
+    glVertex2d(45,0);
+    glVertex2d(60,10);
+    glVertex2d(55,0);
+    glEnd();
+
+
+
+
+
+    glFlush();
+
+
+
+}
+int main(int argc, char** argv) {
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitWindowSize(500, 500);
+    glutInitWindowPosition(90, 0);
+    glutCreateWindow("Penguine");
+    init();
+    glutDisplayFunc(octopus);
+
+    glutDisplayFunc(fish);
+    glutMainLoop();
+    return 0;
+}
